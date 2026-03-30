@@ -16,8 +16,14 @@ interface QuizStore {
   // Session
   session: QuizSession | null
 
+  // 使用者暱稱（mock）
+  userNickname: string
+
   // 歷史紀錄（Landing 頁用）
   history: QuizHistoryResponse | null
+
+  // 累計挑戰次數（完成一局 +1）
+  playCount: number
 
   // Result overlay 控制
   showResult: boolean
@@ -41,7 +47,9 @@ const MOCK_USER_ID = 'user_local'
 
 export const useQuizStore = create<QuizStore>((set, get) => ({
   session: null,
+  userNickname: '楊怡蓉 wooly',
   history: null,
+  playCount: 0,
   showResult: false,
   result: null,
 
@@ -114,13 +122,14 @@ export const useQuizStore = create<QuizStore>((set, get) => ({
       },
     }
 
-    set({
+    set((state) => ({
       result,
       history: updatedHistory,
+      playCount: state.playCount + 1,
       session: session
         ? { ...session, completedAt: new Date().toISOString() }
         : null,
-    })
+    }))
   },
 
   loadHistory: async (userId) => {

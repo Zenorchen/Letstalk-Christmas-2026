@@ -28,7 +28,6 @@ export default function QuizPage() {
   const router = useRouter()
   const { session } = useQuizStore()
 
-  // 沒有 session 就導回首頁
   useEffect(() => {
     if (!session) {
       router.replace('/')
@@ -41,13 +40,10 @@ export default function QuizPage() {
     currentQuestion,
     selectedIndex,
     isCorrect,
-    countdown,
     isLastQuestion,
     answers,
-    hideExplanation,
     handleSelectOption,
-    handleNextClick,
-    toggleHideExplanation,
+    handleNext,
   } = useQuiz()
 
   if (!session || !currentQuestion) return null
@@ -87,11 +83,8 @@ export default function QuizPage() {
         <ExplanationSheet
           isCorrect={isCorrect ?? false}
           explanation={currentQuestion.explanation}
-          countdown={countdown}
-          onNext={handleNextClick}
+          onNext={handleNext}
           isLastQuestion={isLastQuestion}
-          hideExplanation={hideExplanation}
-          onToggleHideExplanation={toggleHideExplanation}
         />
       )}
     </main>

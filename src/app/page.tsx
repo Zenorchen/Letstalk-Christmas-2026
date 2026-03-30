@@ -15,6 +15,8 @@ export default function LandingPage() {
   const router = useRouter()
   const {
     history,
+    playCount,
+    userNickname,
     showResult,
     result,
     loadHistory,
@@ -49,6 +51,11 @@ export default function LandingPage() {
       <HeroBanner />
       <GiftPreview />
 
+      {/* 第 N 次挑戰 標籤 */}
+      <p className="text-center text-sm text-gray-500">
+        第 {playCount + 1} 次挑戰
+      </p>
+
       <StartButton
         hasPlayed={hasPlayed}
         onStart={handleStart}
@@ -67,6 +74,8 @@ export default function LandingPage() {
           result={result}
           onClose={closeResult}
           onShare={handleShare}
+          playCount={playCount}
+          userNickname={userNickname}
         />
       )}
     </main>

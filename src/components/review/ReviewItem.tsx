@@ -27,20 +27,20 @@ export default function ReviewItem({
         onClick={() => setExpanded((v) => !v)}
         className="w-full flex items-center justify-between px-4 py-3 text-left bg-white"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-1 min-w-0 mr-2">
           <span
-            className={`text-xs font-bold px-1.5 py-0.5 rounded ${
+            className={`text-xs font-bold px-1.5 py-0.5 rounded shrink-0 ${
               answer.isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
             }`}
           >
             {answer.isCorrect ? '✓' : '✗'}
           </span>
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium truncate">
             Q{index + 1}. {question.text.slice(0, 20)}
             {question.text.length > 20 ? '…' : ''}
           </span>
         </div>
-        <span className="text-gray-400 text-sm">{expanded ? '▲' : '▼'}</span>
+        <span className="text-gray-400 text-sm shrink-0">{expanded ? '▲' : '▼'}</span>
       </button>
 
       {/* 展開內容 */}

@@ -10,27 +10,48 @@ interface ResultOverlayProps {
   result: QuizResult
   onClose: () => void
   onShare: () => void
+  playCount: number
+  userNickname: string
 }
 
-export default function ResultOverlay({ result, onClose, onShare }: ResultOverlayProps) {
+export default function ResultOverlay({
+  result,
+  onClose,
+  onShare,
+  playCount,
+  userNickname,
+}: ResultOverlayProps) {
   const router = useRouter()
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
       <div className="w-full max-w-sm bg-white rounded-2xl p-6 flex flex-col gap-5">
-        {/* 標題列 */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold">挑戰結果</h2>
-          <button onClick={onClose} className="text-gray-500 text-lg leading-none">
+
+        {/* 標題：只顯示名字，置中；關閉按鈕絕對靠右 */}
+        <div className="relative flex items-center justify-center">
+          <h2 className="text-base font-bold">{userNickname}</h2>
+          <button
+            onClick={onClose}
+            className="absolute right-0 text-gray-500 text-lg leading-none"
+          >
             ✕
           </button>
         </div>
 
-        {/* 頭銜徽章 */}
-        <TitleBadge title={result.title} tier={result.titleTier} />
+        {/* 大頭貼 + 頭銜（每個級別皆有皇冠） */}
+        <TitleBadge
+          title={result.title}
+          tier={result.titleTier}
+          userNickname={userNickname}
+        />
 
         {/* 分數 */}
         <ScoreSummary score={result.score} total={10} />
+
+        {/* 第幾次挑戰（分數下方小字） */}
+        <p className="text-xs text-gray-400 text-center -mt-3">
+          第 {playCount} 次挑戰
+        </p>
 
         {/* 貼圖解鎖提示 */}
         {result.stickerUnlocked && (

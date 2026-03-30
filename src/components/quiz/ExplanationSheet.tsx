@@ -5,51 +5,65 @@ import { useEffect, useState } from 'react'
 interface ExplanationSheetProps {
   isCorrect: boolean
   explanation: string
-  countdown: number
   onNext: () => void
   isLastQuestion: boolean
-  hideExplanation: boolean
-  onToggleHideExplanation: () => void
 }
 
-function ToggleSwitch({
-  checked,
-  onClick,
-}: {
-  checked: boolean
-  onClick: () => void
-}) {
+const BURST_COLORS = ['#ff595e', '#ffca3a', '#6a4c93', '#1982c4', '#8ac926', '#ff924c', '#fff']
+const BURST_COUNT = 48
+
+function CorrectBurst() {
+  const particles = Array.from({ length: BURST_COUNT }, (_, i) => {
+    const angle = (i / BURST_COUNT) * 360
+    const rad = (angle * Math.PI) / 180
+    const dist = 100 + (i % 6) * 25
+    const dx = Math.round(Math.cos(rad) * dist)
+    const dy = Math.round(Math.sin(rad) * dist)
+    const size = i % 4 === 0 ? 10 : 6
+    const color = BURST_COLORS[i % BURST_COLORS.length]
+    const isCircle = i % 3 !== 0
+    const delay = `${(i % 8) * 0.03}s`
+    const duration = `${0.5 + (i % 5) * 0.07}s`
+    return { id: i, dx, dy, size, color, isCircle, delay, duration }
+  })
+
   return (
-    <button
-      onClick={onClick}
-      className="flex items-center gap-1.5 text-xs text-gray-500 shrink-0"
-    >
-      <span>關閉解答</span>
-      <span
-        className={`inline-flex items-center w-8 h-[18px] rounded-full transition-colors ${
-          checked ? 'bg-gray-700' : 'bg-gray-300'
-        }`}
-      >
-        <span
-          className={`w-3.5 h-3.5 bg-white rounded-full shadow transition-transform mx-0.5 ${
-            checked ? 'translate-x-[14px]' : 'translate-x-0'
-          }`}
-        />
-      </span>
-    </button>
+    <>
+      <style>{`
+        @keyframes burst-out {
+          0%   { transform: translate(0,0) scale(1.3); opacity: 1; }
+          80%  { opacity: 0.7; }
+          100% { transform: translate(var(--bx), var(--by)) scale(0); opacity: 0; }
+        }
+      `}</style>
+      {/* 固定在畫面正中央，向四面爆開 */}
+      <div className="pointer-events-none fixed inset-0 flex items-center justify-center z-50">
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            style={{
+              position: 'absolute',
+              width: p.size,
+              height: p.size,
+              backgroundColor: p.color,
+              borderRadius: p.isCircle ? '50%' : '2px',
+              ['--bx' as string]: `${p.dx}px`,
+              ['--by' as string]: `${p.dy}px`,
+              animation: `burst-out ${p.duration} ${p.delay} ease-out forwards`,
+            }}
+          />
+        ))}
+      </div>
+    </>
   )
 }
 
 export default function ExplanationSheet({
   isCorrect,
   explanation,
-  countdown,
   onNext,
   isLastQuestion,
-  hideExplanation,
-  onToggleHideExplanation,
 }: ExplanationSheetProps) {
-  // 掛載後才設為 visible，讓 CSS transition 觸發滑入動畫
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -58,16 +72,16 @@ export default function ExplanationSheet({
   }, [])
 
   return (
-    <div
-      className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ease-out ${
-        visible ? 'translate-y-0' : 'translate-y-full'
-      }`}
-    >
-      {/* 卡片本體：max-w 置中、頂部圓角 */}
-      <div className="max-w-[375px] mx-auto bg-white border-t border-gray-200 rounded-t-2xl shadow-xl p-4 flex flex-col gap-3">
+    <>
+      {isCorrect && <CorrectBurst />}
 
-        {/* ── 第一行：答對/錯 ＋ 關閉解答 toggle ── */}
-        <div className="flex items-center justify-between">
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ease-out ${
+          visible ? 'translate-y-0' : 'translate-y-full'
+        }`}
+      >
+        <div className="max-w-[375px] mx-auto bg-white border-t border-gray-200 rounded-t-2xl shadow-xl p-4 flex flex-col gap-3">
+
           <span
             className={`text-lg font-bold ${
               isCorrect ? 'text-green-700' : 'text-red-600'
@@ -76,34 +90,16 @@ export default function ExplanationSheet({
             {isCorrect ? '✓ 答對了！' : '✗ 答錯了'}
           </span>
 
-          <ToggleSwitch
-            checked={hideExplanation}
-            onClick={onToggleHideExplanation}
-          />
-        </div>
-
-        {/* ── 解析文字（關閉解答時隱藏） ── */}
-        {!hideExplanation && (
           <p className="text-sm text-gray-700 leading-relaxed">{explanation}</p>
-        )}
 
-        {/* ── 倒數提示 ── */}
-        {(hideExplanation || isLastQuestion) && (
-          <p className="text-xs text-gray-400">
-            {countdown} 秒後自動{isLastQuestion ? '查看結果' : '跳下一題'}
-          </p>
-        )}
-
-        {/* ── 下一題 / 查看結果 按鈕（關閉解答時隱藏；最後一題始終顯示） ── */}
-        {(!hideExplanation || isLastQuestion) && (
           <button
             onClick={onNext}
             className="w-full h-14 bg-gray-800 text-white text-lg font-bold rounded-xl"
           >
             {isLastQuestion ? '查看結果' : '下一題'}
           </button>
-        )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
