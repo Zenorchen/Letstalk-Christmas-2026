@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "christmas-quiz",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": ["-c", "cd /Users/lenore/Desktop/Christmas && npm install && npm run dev"],
+      "port": 3000
+    }
+  ]
+}
