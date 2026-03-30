@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-Hant">
-      <body className="bg-white text-gray-900 min-h-screen">
+      <body className="bg-xmas-cream text-xmas-brown min-h-screen">
         <div className="max-w-[375px] mx-auto min-h-screen">
           {children}
         </div>

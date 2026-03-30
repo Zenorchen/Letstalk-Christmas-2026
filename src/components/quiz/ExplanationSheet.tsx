@@ -9,7 +9,7 @@ interface ExplanationSheetProps {
   isLastQuestion: boolean
 }
 
-const BURST_COLORS = ['#ff595e', '#ffca3a', '#6a4c93', '#1982c4', '#8ac926', '#ff924c', '#fff']
+const BURST_COLORS = ['#CC3333', '#E8C56A', '#5B8A58', '#C5E4EA', '#FF924C', '#fff', '#E8C56A']
 const BURST_COUNT = 48
 
 function CorrectBurst() {
@@ -28,33 +28,23 @@ function CorrectBurst() {
   })
 
   return (
-    <>
-      <style>{`
-        @keyframes burst-out {
-          0%   { transform: translate(0,0) scale(1.3); opacity: 1; }
-          80%  { opacity: 0.7; }
-          100% { transform: translate(var(--bx), var(--by)) scale(0); opacity: 0; }
-        }
-      `}</style>
-      {/* 固定在畫面正中央，向四面爆開 */}
-      <div className="pointer-events-none fixed inset-0 flex items-center justify-center z-50">
-        {particles.map((p) => (
-          <div
-            key={p.id}
-            style={{
-              position: 'absolute',
-              width: p.size,
-              height: p.size,
-              backgroundColor: p.color,
-              borderRadius: p.isCircle ? '50%' : '2px',
-              ['--bx' as string]: `${p.dx}px`,
-              ['--by' as string]: `${p.dy}px`,
-              animation: `burst-out ${p.duration} ${p.delay} ease-out forwards`,
-            }}
-          />
-        ))}
-      </div>
-    </>
+    <div className="pointer-events-none fixed inset-0 flex items-center justify-center z-50">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          style={{
+            position: 'absolute',
+            width: p.size,
+            height: p.size,
+            backgroundColor: p.color,
+            borderRadius: p.isCircle ? '50%' : '2px',
+            ['--bx' as string]: `${p.dx}px`,
+            ['--by' as string]: `${p.dy}px`,
+            animation: `burst-out ${p.duration} ${p.delay} ease-out forwards`,
+          }}
+        />
+      ))}
+    </div>
   )
 }
 
@@ -80,21 +70,21 @@ export default function ExplanationSheet({
           visible ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <div className="max-w-[375px] mx-auto bg-white border-t border-gray-200 rounded-t-2xl shadow-xl p-4 flex flex-col gap-3">
+        <div className="max-w-[375px] mx-auto bg-xmas-card border-t-4 border-xmas-red rounded-t-3xl shadow-xl p-4 flex flex-col gap-3">
 
           <span
             className={`text-lg font-bold ${
-              isCorrect ? 'text-green-700' : 'text-red-600'
+              isCorrect ? 'text-xmas-green' : 'text-xmas-red'
             }`}
           >
             {isCorrect ? '✓ 答對了！' : '✗ 答錯了'}
           </span>
 
-          <p className="text-sm text-gray-700 leading-relaxed">{explanation}</p>
+          <p className="text-sm text-xmas-brown-mid leading-relaxed">{explanation}</p>
 
           <button
             onClick={onNext}
-            className="w-full h-14 bg-gray-800 text-white text-lg font-bold rounded-xl"
+            className="w-full h-14 bg-xmas-red text-white text-lg font-bold rounded-2xl shadow-sm active:scale-[0.98] transition-transform"
           >
             {isLastQuestion ? '查看結果' : '下一題'}
           </button>

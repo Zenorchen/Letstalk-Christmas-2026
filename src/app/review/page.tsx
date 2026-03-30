@@ -23,19 +23,19 @@ export default function ReviewPage() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex flex-col min-h-screen bg-xmas-cream">
       {/* 頂部導覽列 */}
-      <div className="flex items-center px-4 py-3 border-b border-gray-200 sticky top-0 bg-white z-10">
+      <div className="flex items-center px-4 py-3 border-b-2 border-xmas-gold/30 sticky top-0 bg-xmas-cream z-10">
         <button
           onClick={() => { closeResult(); router.push('/') }}
-          className="text-gray-700 text-sm flex items-center gap-1 shrink-0"
+          className="text-xmas-brown-mid text-sm flex items-center gap-1 shrink-0"
         >
           ← 回到首頁
         </button>
-        <h1 className="text-base font-bold flex-1 text-center">答題紀錄</h1>
+        <h1 className="text-base font-bold flex-1 text-center text-xmas-brown">答題紀錄</h1>
         <button
           onClick={() => setShowShare(true)}
-          className="text-sm text-gray-700 font-medium shrink-0"
+          className="text-sm text-xmas-red font-bold shrink-0"
         >
           分享結果
         </button>
@@ -52,15 +52,15 @@ export default function ReviewPage() {
 
       {/* 分享結果 Dialog */}
       {showShare && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
-          <div className="w-full max-w-sm bg-white rounded-2xl p-6 flex flex-col gap-4">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
+          <div className="w-full max-w-sm bg-xmas-cream rounded-3xl p-6 flex flex-col gap-4 border-2 border-xmas-gold/40 shadow-xl">
 
             {/* 暱稱置中 + ✕ 右上角 */}
             <div className="relative flex items-center justify-center">
-              <h2 className="text-base font-bold">{userNickname}</h2>
+              <h2 className="text-base font-bold text-xmas-brown">{userNickname}</h2>
               <button
                 onClick={() => setShowShare(false)}
-                className="absolute right-0 text-gray-500 text-lg leading-none"
+                className="absolute right-0 text-xmas-brown-light text-lg leading-none"
               >
                 ✕
               </button>
@@ -74,21 +74,21 @@ export default function ReviewPage() {
             />
 
             {/* 分數 */}
-            <div className="text-4xl font-bold text-center">{score * 10}</div>
+            <div className="text-5xl font-bold text-center text-xmas-red">{score * 10}</div>
 
-            {/* 稱號：分數下方大字 */}
+            {/* 稱號 */}
             {title && (
               <p className="text-xl font-bold text-center" style={{ color: '#0ABAB5' }}>{title}</p>
             )}
 
             {/* 答過幾次 */}
-            <p className="text-xs text-gray-400 text-center">第 {playCount} 次挑戰</p>
+            <p className="text-xs text-xmas-brown-light text-center">第 {playCount} 次挑戰</p>
 
             {/* 按鈕區 */}
             <div className="flex flex-col gap-2 pt-1">
               <button
                 onClick={handleShare}
-                className="w-full py-3 bg-gray-800 text-white text-sm font-bold rounded-xl"
+                className="w-full py-3 bg-xmas-red text-white text-sm font-bold rounded-2xl shadow-sm active:scale-[0.98] transition-transform"
               >
                 分享結果
               </button>

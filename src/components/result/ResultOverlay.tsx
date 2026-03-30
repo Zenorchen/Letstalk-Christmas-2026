@@ -24,21 +24,21 @@ export default function ResultOverlay({
   const router = useRouter()
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6">
-      <div className="w-full max-w-sm bg-white rounded-2xl p-6 flex flex-col gap-5">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
+      <div className="w-full max-w-sm bg-xmas-cream rounded-3xl p-6 flex flex-col gap-5 border-2 border-xmas-gold/40 shadow-xl">
 
-        {/* 標題：只顯示名字，置中；關閉按鈕絕對靠右 */}
+        {/* 標題：名字置中，✕ 右上 */}
         <div className="relative flex items-center justify-center">
-          <h2 className="text-base font-bold">{userNickname}</h2>
+          <h2 className="text-base font-bold text-xmas-brown">{userNickname}</h2>
           <button
             onClick={onClose}
-            className="absolute right-0 text-gray-500 text-lg leading-none"
+            className="absolute right-0 text-xmas-brown-light text-lg leading-none"
           >
             ✕
           </button>
         </div>
 
-        {/* 大頭貼 + 頭銜（每個級別皆有皇冠） */}
+        {/* 頭貼 + 皇冠 */}
         <TitleBadge
           title={result.title}
           tier={result.titleTier}
@@ -48,14 +48,21 @@ export default function ResultOverlay({
         {/* 分數 */}
         <ScoreSummary score={result.score} total={10} />
 
-        {/* 第幾次挑戰（分數下方小字） */}
-        <p className="text-xs text-gray-400 text-center -mt-3">
+        {/* 稱號 */}
+        {result.title && (
+          <p className="text-xl font-bold text-center" style={{ color: '#0ABAB5' }}>
+            {result.title}
+          </p>
+        )}
+
+        {/* 第幾次挑戰 */}
+        <p className="text-xs text-xmas-brown-light text-center -mt-3">
           第 {playCount} 次挑戰
         </p>
 
         {/* 貼圖解鎖提示 */}
         {result.stickerUnlocked && (
-          <div className="p-3 bg-gray-100 rounded text-sm text-center text-gray-700">
+          <div className="p-3 bg-xmas-gold/15 rounded-2xl text-sm text-center text-xmas-brown-mid border border-xmas-gold/40">
             🎁 快去聊天室查看限定動態貼圖！
           </div>
         )}
@@ -65,7 +72,7 @@ export default function ResultOverlay({
           <ShareButton onShare={onShare} />
           <button
             onClick={() => router.push('/review')}
-            className="w-full py-3 text-sm text-gray-600 underline"
+            className="w-full py-3 text-sm text-xmas-brown-mid underline"
           >
             查看答題紀錄
           </button>
